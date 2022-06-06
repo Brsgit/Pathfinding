@@ -19,6 +19,8 @@ public class Controller : MonoBehaviour
             if (graphView != null)
             {
                 graphView.Init(_graph);
+
+                Camera.main.transform.position = new Vector3((_mapData.Width - 1) / 2f, 20f, (_mapData.Height - 1) / 2f);
             }
         }
     }
