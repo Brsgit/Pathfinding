@@ -260,10 +260,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d94afeae1ef05024c82cacce0eed730a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nodeViewPrefab: {fileID: 3417978487082672019, guid: dbeef36ca3127cc4e88a1fd030ecbecf,
+  _nodeViewPrefab: {fileID: 3417978487082672019, guid: dbeef36ca3127cc4e88a1fd030ecbecf,
     type: 3}
-  baseColor: {r: 1, g: 1, b: 1, a: 1}
-  wallColor: {r: 0, g: 0, b: 0, a: 1}
+  _baseColor: {r: 1, g: 1, b: 1, a: 1}
+  _wallColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!1 &1659531819
 GameObject:
   m_ObjectHideFlags: 0
@@ -293,8 +293,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df0df8c559271e547ae4e9bb7b272341, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapData: {fileID: 1800644206}
-  graph: {fileID: 858594193}
+  _mapData: {fileID: 1800644206}
+  _graph: {fileID: 858594193}
 --- !u!4 &1659531821
 Transform:
   m_ObjectHideFlags: 0

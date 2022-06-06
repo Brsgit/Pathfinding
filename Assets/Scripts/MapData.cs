@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class MapData : MonoBehaviour
 {
-    public int width = 10;
-    public int height = 5;
+    [SerializeField] private int width = 10;
+    [SerializeField] private int height = 5;
 
     public int[,] MakeMap()
     {

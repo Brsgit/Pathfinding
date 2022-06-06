@@ -44,8 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86d08d19ac36cf7468167cc1745c4ed5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tile: {fileID: 2571116143328832553}
-  borderSize: 0.15
+  _tile: {fileID: 2571116143328832553}
+  _borderSize: 0.15
 --- !u!1001 &3417978488272851320
 PrefabInstance:
   m_ObjectHideFlags: 0

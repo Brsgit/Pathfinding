@@ -1,12 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class Graph : MonoBehaviour
 {
 
-    public Node[,] nodes;
-    public List<Node> walls = new List<Node>();
+    private Node[,] _nodes;
+    private List<Node> _walls = new List<Node>();
+
+    public Node[,] Nodes => _nodes;
+
+    public IEnumerable<Node> Walls => _walls;
 
     private int[,] m_mapData;
     private int m_width;
@@ -30,7 +33,7 @@ public class Graph : MonoBehaviour
         m_width = mapData.GetLength(0);
         m_height = mapData.GetLength(1);
 
-        nodes = new Node[m_width, m_height];
+        _nodes = new Node[m_width, m_height];
 
         for (int y = 0; y < m_height; y++)
         {
@@ -38,13 +41,13 @@ public class Graph : MonoBehaviour
             {
                 NodeType type = (NodeType)mapData[x, y];
                 Node newNode = new Node(x, y, type);
-                nodes[x, y] = newNode;
+                _nodes[x, y] = newNode;
 
                 newNode.position = new Vector3(x, 0, y);
 
                 if (type == NodeType.Blocked)
                 {
-                    walls.Add(newNode);
+                    _walls.Add(newNode);
                 }
             }
         }
@@ -53,9 +56,9 @@ public class Graph : MonoBehaviour
         {
             for (int x = 0; x < m_width; x++)
             {
-                if (nodes[x, y].nodeType != NodeType.Blocked)
+                if (_nodes[x, y].NodeType != NodeType.Blocked)
                 {
-                    nodes[x, y].neighbours = GetNeighbours(x, y);
+                    _nodes[x, y].SetNeighbours(GetNeighbours(x, y));
                 }
             }
         }
@@ -77,7 +80,7 @@ public class Graph : MonoBehaviour
             int newY = (int)dir.y;
 
             if (IsWithinBounds(newX, newY) && nodeArray[newX, newY] != null &&
-                nodeArray[newX, newY].nodeType != NodeType.Blocked)
+                nodeArray[newX, newY].NodeType != NodeType.Blocked)
             {
                 neighbourNodes.Add(nodeArray[newX, newY]);
             }
@@ -87,6 +90,6 @@ public class Graph : MonoBehaviour
 
     private List<Node> GetNeighbours(int x, int y)
     {
-        return GetNeighbours(x, y, nodes, AllDirections);
+        return GetNeighbours(x, y, _nodes, AllDirections);
     }
 }

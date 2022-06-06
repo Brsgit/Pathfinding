@@ -4,21 +4,21 @@ using UnityEngine;
 
 public class Controller : MonoBehaviour
 {
-    public MapData mapData;
-    public Graph graph;
+    [SerializeField] private MapData _mapData;
+    [SerializeField] private Graph _graph;
 
     private void Start()
     {
-        if (mapData != null && graph != null)
+        if (_mapData != null && _graph != null)
         {
-            int[,] mapInstance = mapData.MakeMap();
-            graph.Init(mapInstance);
+            int[,] mapInstance = _mapData.MakeMap();
+            _graph.Init(mapInstance);
 
-            GraphView graphView = graph.gameObject.GetComponent<GraphView>();
+            GraphView graphView = _graph.GetComponent<GraphView>();
 
             if (graphView != null)
             {
-                graphView.Init(graph);
+                graphView.Init(_graph);
             }
         }
     }

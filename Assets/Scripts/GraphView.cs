@@ -5,10 +5,10 @@ using UnityEngine;
 [RequireComponent(typeof(Graph))]
 public class GraphView : MonoBehaviour
 {
-    public GameObject nodeViewPrefab;
+    [SerializeField] private GameObject _nodeViewPrefab;
 
-    public Color baseColor = Color.white;
-    public Color wallColor = Color.black;
+    [SerializeField] private Color _baseColor = Color.white;
+    [SerializeField] private Color _wallColor = Color.black;
 
     public void Init(Graph graph)
     {
@@ -18,19 +18,19 @@ public class GraphView : MonoBehaviour
                 return;
         }
 
-        foreach(Node n in graph.nodes)
+        foreach(Node n in graph.Nodes)
         {
-            var instance = Instantiate(nodeViewPrefab, Vector3.zero, Quaternion.identity);
+            var instance = Instantiate(_nodeViewPrefab, Vector3.zero, Quaternion.identity);
             NodeView nodeView = instance.GetComponent<NodeView>();
 
             if(nodeView != null)
             {
                 nodeView.Init(n);
 
-                if (n.nodeType == NodeType.Blocked)
-                    nodeView.ColorNode(wallColor);
+                if (n.NodeType == NodeType.Blocked)
+                    nodeView.ColorNode(_wallColor);
                 else
-                    nodeView.ColorNode(baseColor);
+                    nodeView.ColorNode(_baseColor);
             }
         }
     }

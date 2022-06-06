@@ -9,27 +9,42 @@ public enum NodeType
 
 public class Node
 {
-    public NodeType nodeType = NodeType.Open;
+    [SerializeField] private NodeType _nodeType = NodeType.Open;
 
-    public int xIndex = -1;
-    public int yIndex = -1;
+    public NodeType NodeType => _nodeType;
+
+    [SerializeField] private int _xIndex = -1;
+    [SerializeField] private int _yIndex = -1;
+
+    public int XIndex => _xIndex;
+
+    public int YIndex => _yIndex;
 
     public Vector3 position;
 
-    public List<Node> neighbours = new List<Node>();
+    private List<Node> _neighbours = new List<Node>();
 
-    public Node previous = null;
+    public IEnumerable<Node> Neighbours => _neighbours;
+
+    private Node _previous = null;
+
+    public Node Previous => _previous;
 
     public Node(int xIndex, int yIndex, NodeType nodeType)
     {
-        this.xIndex = xIndex;
-        this.yIndex = yIndex;
-        this.nodeType = nodeType;
+        this._xIndex = xIndex;
+        this._yIndex = yIndex;
+        this._nodeType = nodeType;
     }
 
     public void Reset()
     {
-        previous = null;
+        _previous = null;
+    }
+
+    public void SetNeighbours(List<Node> neighbours)
+    {
+        _neighbours = neighbours;
     }
 
 }
