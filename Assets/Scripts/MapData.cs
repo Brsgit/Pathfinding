@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MapData : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class MapData : MonoBehaviour
     [SerializeField] private int _height = 5;
 
     [SerializeField] private TextAsset _textAsset;
+    [SerializeField] private string resourcePath = "MapData";
 
     public int Width => _width;
     public int Height => _height;
@@ -19,11 +21,11 @@ public class MapData : MonoBehaviour
 
         var map = new int[_width, _height];
 
-        for (int y = 0; y<_height; y++)
+        for (int y = 0; y < _height; y++)
         {
-            for (int x = 0; x<_width; x++)
+            for (int x = 0; x < _width; x++)
             {
-                if(lines[y].Length > x)
+                if (lines[y].Length > x)
                 {
                     map[x, y] = (int)Char.GetNumericValue(lines[y][x]);
                 }
@@ -41,11 +43,11 @@ public class MapData : MonoBehaviour
     {
         List<string> lines = new List<string>();
 
-        if(text != null)
+        if (text != null)
         {
             string textData = text.text;
             string[] delimeters = { "\r\n", "\n" };
-            lines.AddRange(textData.Split(delimeters, System.StringSplitOptions.None));
+            lines.AddRange(textData.Split(delimeters, StringSplitOptions.None));
             lines.Reverse();
         }
         else
@@ -58,6 +60,12 @@ public class MapData : MonoBehaviour
 
     public List<string> GetTextFromFile()
     {
+        if (_textAsset == null)
+        {
+            string levelName = SceneManager.GetActiveScene().name;
+            _textAsset = Resources.Load(resourcePath + "/" + levelName) as TextAsset;
+        }
+
         return GetTextFromFile(_textAsset);
     }
 
@@ -65,7 +73,7 @@ public class MapData : MonoBehaviour
     {
         _height = textLines.Count;
 
-        foreach(string line in textLines)
+        foreach (string line in textLines)
         {
             if (line.Length > _width)
                 _width = line.Length;
