@@ -7,6 +7,8 @@ public class GraphView : MonoBehaviour
 {
     [SerializeField] private GameObject _nodeViewPrefab;
 
+    public NodeView[,] nodeViews;
+
     [SerializeField] private Color _baseColor = Color.white;
     [SerializeField] private Color _wallColor = Color.black;
 
@@ -18,6 +20,8 @@ public class GraphView : MonoBehaviour
                 return;
         }
 
+        nodeViews = new NodeView[graph.Width, graph.Height];
+
         foreach(Node n in graph.Nodes)
         {
             var instance = Instantiate(_nodeViewPrefab, Vector3.zero, Quaternion.identity);
@@ -26,11 +30,28 @@ public class GraphView : MonoBehaviour
             if(nodeView != null)
             {
                 nodeView.Init(n);
+                nodeViews[n.XIndex, n.YIndex] = nodeView;
 
                 if (n.NodeType == NodeType.Blocked)
                     nodeView.ColorNode(_wallColor);
                 else
                     nodeView.ColorNode(_baseColor);
+            }
+        }
+    }
+
+    public void ColorNodes(List<Node> nodes, Color color)
+    {
+        foreach(Node n in nodes)
+        {
+            if (n != null)
+            {
+                NodeView nodeView = nodeViews[n.XIndex, n.YIndex];
+
+                if(nodeView != null)
+                {
+                    nodeView.ColorNode(color);
+                }
             }
         }
     }

@@ -12,8 +12,12 @@ public class Graph : MonoBehaviour
     public IEnumerable<Node> Walls => _walls;
 
     private int[,] m_mapData;
+
     private int m_width;
+    public int Width => m_width;
+
     private int m_height;
+    public int Height => m_height;
 
     public static readonly Vector2[] AllDirections =
     {
