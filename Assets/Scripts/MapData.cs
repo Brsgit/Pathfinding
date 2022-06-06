@@ -9,14 +9,40 @@ public class MapData : MonoBehaviour
     [SerializeField] private int _height = 5;
 
     [SerializeField] private TextAsset _textAsset;
+    [SerializeField] private Texture2D _texture;
     [SerializeField] private string resourcePath = "MapData";
 
     public int Width => _width;
     public int Height => _height;
 
+    private void Start()
+    {
+        string levelName = SceneManager.GetActiveScene().name;
+        if (_texture == null)
+        {
+            _texture = Resources.Load(resourcePath + "/" + levelName) as Texture2D;
+        }
+
+        if (_textAsset == null)
+        {
+            _textAsset = Resources.Load(resourcePath + "/" + levelName) as TextAsset;
+        }
+
+    }
+
     public int[,] MakeMap()
     {
-        List<string> lines = GetTextFromFile();
+        List<string> lines = new List<string>();
+
+        if (_texture != null)
+        {
+            lines = GetMapFromTexture(_texture);
+        }
+        else
+        {
+            lines = GetMapFromTextFile(_textAsset);
+        }
+
         SetDimensions(lines);
 
         var map = new int[_width, _height];
@@ -32,14 +58,10 @@ public class MapData : MonoBehaviour
             }
         }
 
-        map[1, 0] = 1;
-        map[1, 1] = 1;
-        map[1, 2] = 1;
-
         return map;
     }
 
-    public List<string> GetTextFromFile(TextAsset text)
+    public List<string> GetMapFromTextFile(TextAsset text)
     {
         List<string> lines = new List<string>();
 
@@ -50,23 +72,42 @@ public class MapData : MonoBehaviour
             lines.AddRange(textData.Split(delimeters, StringSplitOptions.None));
             lines.Reverse();
         }
-        else
-        {
-            Debug.LogWarning("INVALID TEXT ASSET!");
-        }
 
         return lines;
     }
 
-    public List<string> GetTextFromFile()
+    public List<string> GetMapFromTextFile()
     {
-        if (_textAsset == null)
+        return GetMapFromTextFile(_textAsset);
+    }
+
+    public List<string> GetMapFromTexture(Texture2D texture)
+    {
+        List<string> lines = new List<string>();
+
+        if (_texture != null)
         {
-            string levelName = SceneManager.GetActiveScene().name;
-            _textAsset = Resources.Load(resourcePath + "/" + levelName) as TextAsset;
+            for (int y = 0; y < texture.height; y++)
+            {
+                string newLine = "";
+
+                for (int x = 0; x < texture.width; x++)
+                {
+                    if (texture.GetPixel(x, y) == Color.black)
+                    {
+                        newLine += "1";
+                    }
+                    else
+                    {
+                        newLine += "0";
+                    }
+                }
+                lines.Add(newLine);
+            }
+
         }
 
-        return GetTextFromFile(_textAsset);
+        return lines;
     }
 
     public void SetDimensions(List<string> textLines)
