@@ -12,6 +12,18 @@ public class Graph : MonoBehaviour
     private int m_width;
     private int m_height;
 
+    public static readonly Vector2[] AllDirections =
+    {
+        new Vector2(0f, 1f),
+        new Vector2(0f, -1f),
+        new Vector2(1f, 0f),
+        new Vector2(1f, 1f),
+        new Vector2(1f, -1f),
+        new Vector2(-1f, 0f),
+        new Vector2(-1f, 1f),
+        new Vector2(-1f, -1f),
+    };
+
     public void Init(int[,] mapData)
     {
         m_mapData = mapData;
@@ -30,11 +42,51 @@ public class Graph : MonoBehaviour
 
                 newNode.position = new Vector3(x, 0, y);
 
-                if(type == NodeType.Blocked)
+                if (type == NodeType.Blocked)
                 {
                     walls.Add(newNode);
                 }
             }
         }
+
+        for (int y = 0; y < m_height; y++)
+        {
+            for (int x = 0; x < m_width; x++)
+            {
+                if (nodes[x, y].nodeType != NodeType.Blocked)
+                {
+                    nodes[x, y].neighbours = GetNeighbours(x, y);
+                }
+            }
+        }
+
+    }
+
+    public bool IsWithinBounds(int x, int y)
+    {
+        return (x >= 0 && x < m_width && y > 0 && y < m_height);
+    }
+
+    private List<Node> GetNeighbours(int x, int y, Node[,] nodeArray, Vector2[] directions)
+    {
+        List<Node> neighbourNodes = new List<Node>();
+
+        foreach (Vector2 dir in directions)
+        {
+            int newX = (int)dir.x;
+            int newY = (int)dir.y;
+
+            if (IsWithinBounds(newX, newY) && nodeArray[newX, newY] != null &&
+                nodeArray[newX, newY].nodeType != NodeType.Blocked)
+            {
+                neighbourNodes.Add(nodeArray[newX, newY]);
+            }
+        }
+        return neighbourNodes;
+    }
+
+    private List<Node> GetNeighbours(int x, int y)
+    {
+        return GetNeighbours(x, y, nodes, AllDirections);
     }
 }
