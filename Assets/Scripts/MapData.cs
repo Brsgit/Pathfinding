@@ -15,7 +15,7 @@ public class MapData : MonoBehaviour
     public int Width => _width;
     public int Height => _height;
 
-    private void Start()
+    private void Awake()
     {
         string levelName = SceneManager.GetActiveScene().name;
         if (_texture == null)
