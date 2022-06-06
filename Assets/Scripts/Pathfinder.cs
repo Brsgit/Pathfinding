@@ -28,7 +28,8 @@ public class Pathfinder : MonoBehaviour
 
         if(startNode.NodeType == NodeType.Blocked || goalNode.NodeType == NodeType.Blocked)
         {
-            Debug.LogWarning("PATHFINDER: Start and goal nodes can't be blocked!");
+            string msg = startNode.NodeType == NodeType.Blocked ? "Start node " : "Goal node ";
+            Debug.LogWarning("PATHFINDER: Start and goal nodes can't be blocked! " + msg + "blocked.");
             return;
         }
 
