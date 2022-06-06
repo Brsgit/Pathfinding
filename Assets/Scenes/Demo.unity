@@ -121,6 +121,53 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &79934889
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 79934891}
+  - component: {fileID: 79934890}
+  m_Layer: 0
+  m_Name: Pathfinder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &79934890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 79934889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a86fbe8fbab1b64b87101a5ee57f964, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _startNodeColor: {r: 0, g: 1, b: 0, a: 1}
+  _goalNodeColor: {r: 1, g: 0, b: 0, a: 1}
+  _frontierNodeColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  _visitedNodeColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+--- !u!4 &79934891
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 79934889}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 7.935751, y: 7.275342, z: -4.7807875}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -295,6 +342,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mapData: {fileID: 1800644206}
   _graph: {fileID: 858594193}
+  _pathfinder: {fileID: 79934890}
+  _startX: 0
+  _startY: 0
+  _goalX: 15
+  _goalY: 9
 --- !u!4 &1659531821
 Transform:
   m_ObjectHideFlags: 0
@@ -340,8 +392,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _width: 10
   _height: 5
-  _textAsset: {fileID: 0}
-  _texture: {fileID: 2800000, guid: 9949aaa9331ca3f4a996282dc276e298, type: 3}
+  _textAsset: {fileID: 4900000, guid: 52eeef72721c914488b106afd721da43, type: 3}
+  _texture: {fileID: 0}
   resourcePath: MapData
 --- !u!4 &1800644207
 Transform:

@@ -71,7 +71,7 @@ public class Graph : MonoBehaviour
 
     public bool IsWithinBounds(int x, int y)
     {
-        return (x >= 0 && x < m_width && y > 0 && y < m_height);
+        return (x >= 0 && x < m_width && y >= 0 && y < m_height);
     }
 
     private List<Node> GetNeighbours(int x, int y, Node[,] nodeArray, Vector2[] directions)
