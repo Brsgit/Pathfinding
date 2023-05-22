@@ -20,6 +20,14 @@ public class Node
 
     public int YIndex => _yIndex;
 
+    private float _distanceTraveled = Mathf.Infinity;
+
+    public float DistanceTraveled
+    {
+        get { return _distanceTraveled; }
+        set { _distanceTraveled = value; }
+    }
+
     public Vector3 position;
 
     public List<Node> _neighbours = new List<Node>();

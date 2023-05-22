@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Graph : MonoBehaviour
 {
+    public const float DIAGONALDISTANCE = 1.4f;
 
     private Node[,] _nodes;
     private List<Node> _walls = new List<Node>();
@@ -95,5 +96,19 @@ public class Graph : MonoBehaviour
     private List<Node> GetNeighbours(int x, int y)
     {
         return GetNeighbours(x, y, _nodes, AllDirections);
+    }
+
+    public float GetNodesDIstance(Node start, Node goal)
+    {
+        var dx = Mathf.Abs(start.XIndex - goal.XIndex);
+        var dy = Mathf.Abs(start.YIndex - goal.YIndex);
+
+        var min = Mathf.Min(dx, dy);
+        var max = Mathf.Max(dx, dy);
+
+        var diagonalSteps = min;
+        var straightSteps = max - min;
+
+        return DIAGONALDISTANCE * diagonalSteps + straightSteps;
     }
 }
