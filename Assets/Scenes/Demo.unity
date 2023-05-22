@@ -156,6 +156,13 @@ MonoBehaviour:
   _goalNodeColor: {r: 1, g: 0, b: 0, a: 1}
   _frontierNodeColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   _visitedNodeColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  _pathColor: {r: 0, g: 1, b: 1, a: 1}
+  _arrowColor: {r: 0.85, g: 0.85, b: 0.85, a: 1}
+  _highlightColor: {r: 1, g: 1, b: 0.5, a: 1}
+  _showIterations: 1
+  _showArrows: 1
+  _showColors: 1
+  exitOnGoal: 1
 --- !u!4 &79934891
 Transform:
   m_ObjectHideFlags: 0
@@ -350,9 +357,9 @@ MonoBehaviour:
   _pathfinder: {fileID: 79934890}
   _startX: 0
   _startY: 0
-  _goalX: 15
-  _goalY: 9
-  timeStep: 0.05
+  _goalX: 62
+  _goalY: 20
+  timeStep: 0
 --- !u!4 &1659531821
 Transform:
   m_ObjectHideFlags: 0

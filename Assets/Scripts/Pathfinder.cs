@@ -22,6 +22,11 @@ public class Pathfinder : MonoBehaviour
     [SerializeField] private Color _arrowColor = new Color(0.85f, 0.85f, 0.85f, 1f);
     [SerializeField] private Color _highlightColor = new Color(1f, 1f, 0.5f, 1f);
 
+    [SerializeField] private bool _showIterations = true;
+    [SerializeField] private bool _showArrows = true;
+    [SerializeField] private bool _showColors = true;
+    [SerializeField] private bool exitOnGoal = true;
+
 
     private bool _isComplete = false;
     private int _iterations = 0;
@@ -82,7 +87,7 @@ public class Pathfinder : MonoBehaviour
             graphView.ColorNodes(_visitedNodes, _visitedNodeColor);
         }
 
-        if(_pathNodes != null && _pathNodes.Count > 0)
+        if (_pathNodes != null && _pathNodes.Count > 0)
         {
             _graphView.ColorNodes(_pathNodes, _pathColor);
         }
@@ -104,6 +109,7 @@ public class Pathfinder : MonoBehaviour
 
     public IEnumerator SearchRoutine(float timeStep = 0.1f)
     {
+        float timeStart = Time.time;
         yield return null;
 
         while (!_isComplete)
@@ -121,39 +127,56 @@ public class Pathfinder : MonoBehaviour
                 if (_frontierNodes.Contains(_goalNode))
                 {
                     _pathNodes = GetPathNodes(_goalNode);
-                    _isComplete = true;
+                    if (exitOnGoal)
+                    {
+                        _isComplete = true;
+                    }
                 }
 
                 ExpandFurther(currentNode);
 
-                ShowColors();
-                
-                if(_graphView != null)
+                if (_showIterations)
                 {
-                    _graphView.ShowNodeArrows(_frontierNodes.ToList(), _arrowColor);
+                    ShowDiagnostics();
 
-                    if (_frontierNodes.Contains(_goalNode))
-                    {
-                        _graphView.ShowNodeArrows(_pathNodes, _highlightColor);
-                    }
+                    yield return new WaitForSeconds(timeStep);
                 }
-
-                yield return new WaitForSeconds(timeStep);
             }
             else
             {
                 _isComplete = true;
             }
         }
+
+        ShowDiagnostics();
+        Debug.Log("PATHFINDER SearchRoutine: elapse time = " + (Time.time - timeStart).ToString() + " seconds.");
+    }
+
+    private void ShowDiagnostics()
+    {
+        if (_showColors)
+        {
+            ShowColors();
+        }
+
+        if (_graphView != null && _showArrows)
+        {
+            _graphView.ShowNodeArrows(_frontierNodes.ToList(), _arrowColor);
+
+            if (_frontierNodes.Contains(_goalNode))
+            {
+                _graphView.ShowNodeArrows(_pathNodes, _highlightColor);
+            }
+        }
     }
 
     private void ExpandFurther(Node node)
     {
-        if(node != null)
+        if (node != null)
         {
-            for(int i = 0; i < node._neighbours.Count(); i++)
+            for (int i = 0; i < node._neighbours.Count(); i++)
             {
-                if(!_visitedNodes.Contains(node._neighbours[i]) 
+                if (!_visitedNodes.Contains(node._neighbours[i])
                     && !_frontierNodes.Contains(node._neighbours[i]))
                 {
                     node._neighbours[i].Previous = node;
@@ -167,7 +190,7 @@ public class Pathfinder : MonoBehaviour
     {
         List<Node> path = new();
 
-        if(endNode == null)
+        if (endNode == null)
         {
             return path;
         }
@@ -175,8 +198,8 @@ public class Pathfinder : MonoBehaviour
         path.Add(endNode);
 
         Node currentNode = endNode.Previous;
-        
-        while(currentNode.Previous != null)
+
+        while (currentNode.Previous != null)
         {
             path.Insert(0, currentNode);
             currentNode = currentNode.Previous;
