@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Graph))]
@@ -53,6 +52,26 @@ public class GraphView : MonoBehaviour
                     nodeView.ColorNode(color);
                 }
             }
+        }
+    }
+
+    public void ShowNodeArrows(Node node, Color color)
+    {
+        if (node != null)
+        {
+            NodeView nodeView = nodeViews[node.XIndex, node.YIndex];
+            if (nodeView)
+            {
+                nodeView.ShowArrow(color);
+            }
+        }
+    }
+
+    public void ShowNodeArrows(List<Node> list, Color color)
+    {
+        foreach(var n in list)
+        {
+            ShowNodeArrows(n, color);
         }
     }
 
