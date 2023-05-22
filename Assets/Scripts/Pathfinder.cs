@@ -148,6 +148,8 @@ public class Pathfinder : MonoBehaviour
                     if (exitOnGoal)
                     {
                         _isComplete = true;
+                        Debug.Log("PATHFINDER Mode: " + _mode.ToString() + 
+                            " path length: " + _goalNode.DistanceTraveled.ToString());
                     }
                 }
 
@@ -193,9 +195,14 @@ public class Pathfinder : MonoBehaviour
         {
             for (int i = 0; i < node._neighbours.Count(); i++)
             {
+
                 if (!_visitedNodes.Contains(node._neighbours[i])
                     && !_frontierNodes.Contains(node._neighbours[i]))
                 {
+                    var distanceToNeighbour = _graph.GetNodesDIstance(node, node._neighbours[i]);
+                    var newDistanceTraveled = distanceToNeighbour + node.DistanceTraveled;
+                    node._neighbours[i].DistanceTraveled = newDistanceTraveled;
+
                     node._neighbours[i].Previous = node;
                     _frontierNodes.Enqueue(node._neighbours[i]);
                 }
