@@ -22,13 +22,16 @@ public class Node
 
     public Vector3 position;
 
-    private List<Node> _neighbours = new List<Node>();
+    public List<Node> _neighbours = new List<Node>();
 
     public IEnumerable<Node> Neighbours => _neighbours;
 
     private Node _previous = null;
 
-    public Node Previous => _previous;
+    public Node Previous { 
+        get { return _previous; }
+        set { _previous = value; }
+    }
 
     public Node(int xIndex, int yIndex, NodeType nodeType)
     {

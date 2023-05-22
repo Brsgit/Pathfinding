@@ -13,6 +13,8 @@ public class Controller : MonoBehaviour
     [SerializeField] private int _goalX = 15;
     [SerializeField] private int _goalY = 9;
 
+    [SerializeField] public float timeStep = 0.1f;
+
     private void Start()
     {
         if (_mapData != null && _graph != null)
@@ -35,6 +37,7 @@ public class Controller : MonoBehaviour
                 Node startNode = _graph.Nodes[_startX, _startY];
                 Node goalNode = _graph.Nodes[_goalX, _goalY];
                 _pathfinder.Init(_graph, graphView, startNode, goalNode);
+                StartCoroutine(_pathfinder.SearchRoutine(timeStep));
             }
         }
     }

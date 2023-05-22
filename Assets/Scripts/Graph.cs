@@ -80,8 +80,8 @@ public class Graph : MonoBehaviour
 
         foreach (Vector2 dir in directions)
         {
-            int newX = (int)dir.x;
-            int newY = (int)dir.y;
+            int newX = x+ (int)dir.x;
+            int newY = y + (int)dir.y;
 
             if (IsWithinBounds(newX, newY) && nodeArray[newX, newY] != null &&
                 nodeArray[newX, newY].NodeType != NodeType.Blocked)
