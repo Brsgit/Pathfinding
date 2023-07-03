@@ -120,7 +120,7 @@ public class Pathfinder : MonoBehaviour
 
     public IEnumerator SearchRoutine(float timeStep = 0.1f)
     {
-        float timeStart = Time.time;
+        float timeStart = Time.realtimeSinceStartup;
         yield return null;
 
         while (!_isComplete)
@@ -178,7 +178,7 @@ public class Pathfinder : MonoBehaviour
         }
 
         ShowDiagnostics(true);
-        Debug.Log("PATHFINDER SearchRoutine: elapse time = " + (Time.time - timeStart).ToString() + " seconds.");
+        Debug.Log("PATHFINDER SearchRoutine: elapse time = " + (Time.realtimeSinceStartup - timeStart).ToString() + " seconds.");
     }
 
     private void ShowDiagnostics(bool lerpColor = false, float lerpValue = 0.5f)
