@@ -10,7 +10,7 @@ public class Pathfinder : MonoBehaviour
     private Node _startNode;
     private Node _goalNode;
 
-    private Queue<Node> _frontierNodes = new Queue<Node>();
+    private PriorityQueue<Node> _frontierNodes = new PriorityQueue<Node>();
     private List<Node> _visitedNodes = new List<Node>();
     private List<Node> _pathNodes = new List<Node>();
 
@@ -204,6 +204,7 @@ public class Pathfinder : MonoBehaviour
                     node._neighbours[i].DistanceTraveled = newDistanceTraveled;
 
                     node._neighbours[i].Previous = node;
+                    node._neighbours[i].priority = _visitedNodes.Count;
                     _frontierNodes.Enqueue(node._neighbours[i]);
                 }
             }
@@ -230,6 +231,7 @@ public class Pathfinder : MonoBehaviour
 
                     if (!_frontierNodes.Contains(node._neighbours[i]))
                     {
+                        node._neighbours[i].priority = (int)node._neighbours[i].DistanceTraveled; 
                         _frontierNodes.Enqueue(node._neighbours[i]);
                     }
                 }

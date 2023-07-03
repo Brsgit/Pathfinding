@@ -1,13 +1,17 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public enum NodeType
 {
     Open = 0,
-    Blocked = 1
+    Blocked = 1,
+    LightTerrain = 2,
+    MedTerrain = 3,
+    HeavyTerrain = 4
 }
 
-public class Node
+public class Node : IComparable<Node>
 {
     [SerializeField] private NodeType _nodeType = NodeType.Open;
 
@@ -36,6 +40,8 @@ public class Node
 
     private Node _previous = null;
 
+    public int priority;
+
     public Node Previous { 
         get { return _previous; }
         set { _previous = value; }
@@ -58,4 +64,10 @@ public class Node
         _neighbours = neighbours;
     }
 
+    public int CompareTo(Node other)
+    {
+        if (priority < other.priority) return -1;
+        else if (priority > other.priority) return 1;
+        else return 0;
+    }
 }
