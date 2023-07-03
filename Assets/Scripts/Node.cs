@@ -40,7 +40,7 @@ public class Node : IComparable<Node>
 
     private Node _previous = null;
 
-    public int priority;
+    public float priority;
 
     public Node Previous { 
         get { return _previous; }

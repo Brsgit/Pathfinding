@@ -8,9 +8,6 @@ public class GraphView : MonoBehaviour
 
     public NodeView[,] nodeViews;
 
-    [SerializeField] private Color _baseColor = Color.white;
-    [SerializeField] private Color _wallColor = Color.black;
-
     public void Init(Graph graph)
     {
         if(graph == null)
@@ -31,25 +28,30 @@ public class GraphView : MonoBehaviour
                 nodeView.Init(n);
                 nodeViews[n.XIndex, n.YIndex] = nodeView;
 
-                if (n.NodeType == NodeType.Blocked)
-                    nodeView.ColorNode(_wallColor);
-                else
-                    nodeView.ColorNode(_baseColor);
+                Color originalColor = MapData.GetColorFromNodeType(n.NodeType);
+                nodeView.ColorNode(originalColor);
             }
         }
     }
 
-    public void ColorNodes(List<Node> nodes, Color color)
+    public void ColorNodes(List<Node> nodes, Color color, bool lerpColor = false, float lerpValue = 0.5f)
     {
         foreach(Node n in nodes)
         {
             if (n != null)
             {
                 NodeView nodeView = nodeViews[n.XIndex, n.YIndex];
+                Color newColor = color;
+
+                if (lerpColor)
+                {
+                    Color originalColor = MapData.GetColorFromNodeType(n.NodeType);
+                    newColor = Color.Lerp(originalColor, newColor, lerpValue);
+                }
 
                 if(nodeView != null)
                 {
-                    nodeView.ColorNode(color);
+                    nodeView.ColorNode(newColor);
                 }
             }
         }
