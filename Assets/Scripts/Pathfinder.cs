@@ -36,6 +36,7 @@ public class Pathfinder : MonoBehaviour
         BFS = 0,
         Dijkstra = 1,
         GBFS = 2,
+        AStar = 3,
     }
 
     [SerializeField] private Mode _mode = Mode.BFS;
@@ -146,6 +147,10 @@ public class Pathfinder : MonoBehaviour
                 {
                     ExpandFrontierGBFS(currentNode);
                 }
+                else if (_mode == Mode.AStar)
+                {
+                    ExpandFrontierAStar(currentNode);
+                }
 
                 if (_frontierNodes.Contains(_goalNode))
                 {
@@ -236,7 +241,7 @@ public class Pathfinder : MonoBehaviour
 
                     if (!_frontierNodes.Contains(node._neighbours[i]))
                     {
-                        node._neighbours[i].priority = (float)node._neighbours[i].DistanceTraveled; 
+                        node._neighbours[i].priority = node._neighbours[i].DistanceTraveled; 
                         _frontierNodes.Enqueue(node._neighbours[i]);
                     }
                 }
@@ -265,6 +270,35 @@ public class Pathfinder : MonoBehaviour
                         node._neighbours[i].priority = _graph.GetNodesDIstance(node._neighbours[i], _goalNode);
                     }
                     _frontierNodes.Enqueue(node._neighbours[i]);
+                }
+            }
+        }
+    }
+
+    private void ExpandFrontierAStar(Node node)
+    {
+        if (node != null)
+        {
+            for (int i = 0; i < node._neighbours.Count(); i++)
+            {
+                if (!_visitedNodes.Contains(node._neighbours[i]))
+                {
+                    var distanceToNeighbour = _graph.GetNodesDIstance(node, node._neighbours[i]);
+                    var newDistanceTraveled = distanceToNeighbour + node.DistanceTraveled + (int)node.NodeType;
+
+                    if (float.IsPositiveInfinity(node._neighbours[i].DistanceTraveled) ||
+                        newDistanceTraveled < node._neighbours[i].DistanceTraveled)
+                    {
+                        node._neighbours[i].Previous = node;
+                        node._neighbours[i].DistanceTraveled = newDistanceTraveled;
+                    }
+
+                    if (!_frontierNodes.Contains(node._neighbours[i]) && _graph != null)
+                    {
+                        var distToGoal = _graph.GetNodesDIstance(node._neighbours[i], _goalNode);
+                        node._neighbours[i].priority = node._neighbours[i].DistanceTraveled + distToGoal;
+                        _frontierNodes.Enqueue(node._neighbours[i]);
+                    }
                 }
             }
         }

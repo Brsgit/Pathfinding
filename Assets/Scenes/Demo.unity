@@ -356,7 +356,7 @@ MonoBehaviour:
   _pathfinder: {fileID: 79934890}
   _startX: 0
   _startY: 0
-  _goalX: 13
+  _goalX: 27
   _goalY: 10
   timeStep: 0
 --- !u!4 &1659531821
