@@ -35,6 +35,7 @@ public class Pathfinder : MonoBehaviour
     {
         BFS = 0,
         Dijkstra = 1,
+        GBFS = 2,
     }
 
     [SerializeField] private Mode _mode = Mode.BFS;
@@ -141,6 +142,10 @@ public class Pathfinder : MonoBehaviour
                 {
                     ExpandFrontierDijkstra(currentNode);
                 }
+                else if (_mode == Mode.GBFS)
+                {
+                    ExpandFrontierGBFS(currentNode);
+                }
 
                 if (_frontierNodes.Contains(_goalNode))
                 {
@@ -234,6 +239,32 @@ public class Pathfinder : MonoBehaviour
                         node._neighbours[i].priority = (float)node._neighbours[i].DistanceTraveled; 
                         _frontierNodes.Enqueue(node._neighbours[i]);
                     }
+                }
+            }
+        }
+    }
+
+    private void ExpandFrontierGBFS(Node node)
+    {
+        if (node != null)
+        {
+            for (int i = 0; i < node._neighbours.Count(); i++)
+            {
+
+                if (!_visitedNodes.Contains(node._neighbours[i])
+                    && !_frontierNodes.Contains(node._neighbours[i]))
+                {
+                    var distanceToNeighbour = _graph.GetNodesDIstance(node, node._neighbours[i]);
+                    var newDistanceTraveled = distanceToNeighbour + node.DistanceTraveled + (int)node.NodeType;
+                    node._neighbours[i].DistanceTraveled = newDistanceTraveled;
+
+                    node._neighbours[i].Previous = node;
+
+                    if(_graph != null)
+                    {
+                        node._neighbours[i].priority = _graph.GetNodesDIstance(node._neighbours[i], _goalNode);
+                    }
+                    _frontierNodes.Enqueue(node._neighbours[i]);
                 }
             }
         }
